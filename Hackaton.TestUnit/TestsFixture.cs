@@ -43,7 +43,7 @@ public class TestsFixture : IDisposable
 
         var author = test.Generate();
 
-        var testNews = new Faker<File>()
+        var file = new Faker<File>()
             .CustomInstantiator(f =>
                 new File(
                     name: f.Name.FirstName(),
@@ -54,7 +54,7 @@ public class TestsFixture : IDisposable
                 )
             );
 
-        return testNews.Generate();
+        return file.Generate();
     }
 
     public Guid AddFileToDbContext()
