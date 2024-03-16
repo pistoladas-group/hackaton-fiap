@@ -27,7 +27,6 @@
 - [Arquitetura](#arquitetura)
     - [Web App](#web-app)
     - [Core API](#core-api)
-    - [Auth API (Authorization Server)](#auth-api-authorization-server)
 - [Testes](#testes)
     - [Testes Unitários](#testes-unitários)
 - [Executando a aplicação](#executando-a-aplicação)
@@ -47,7 +46,7 @@ Este projeto foi desenvolvido para atender aos requisitos de uma demanda de proc
 
 # Tecnologias
 
-| Web App | API's | ORM | Database | WORKER |
+| Web App | API | ORM | Database | WORKER |
 | --- | --- | --- | --- | -- |
 | [![bootstrap-version](https://img.shields.io/badge/Bootstrap-5.3.1-purple)](https://getbootstrap.com/)<br>[![fontawesome-version](https://img.shields.io/badge/Font_Awesome-6.4.0-yellow)](https://fontawesome.com/)<br>[![aspnetcore-version](https://img.shields.io/badge/ASP.NET_Core_MVC-7.0-blue)](https://learn.microsoft.com/pt-br/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-7.0)| [![aspnetcore-version](https://img.shields.io/badge/ASP.NET_Core-7.0-blue)](https://learn.microsoft.com/pt-br/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-7.0) | [![dapper-version](https://img.shields.io/badge/EF_Core-7.0-red)](https://learn.microsoft.com/en-us/ef/core/) | ![database](https://img.shields.io/badge/SQL_Server-gray) |<br>[![aspnetcore-version](https://img.shields.io/badge/ASP.NET_Core_MVC-7.0-blue)](https://learn.microsoft.com/pt-br/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-7.0)
 
