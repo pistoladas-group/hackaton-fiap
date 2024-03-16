@@ -16,7 +16,7 @@ public class TestsFixture : IDisposable
     public ApplicationDbContext GetDbContext()
     {
         var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("File")
+            .UseInMemoryDatabase("TechBox")
             .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options;
 
