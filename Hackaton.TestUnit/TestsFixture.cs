@@ -30,7 +30,7 @@ public class TestsFixture : IDisposable
 
     private File GetFileWithAuthor()
     {
-        var testAuthor = new Faker<File>()
+        var test = new Faker<File>()
             .CustomInstantiator(f =>
                 new File(
                     name: f.Name.FirstName(),
@@ -41,7 +41,7 @@ public class TestsFixture : IDisposable
                 )
             );
 
-        var author = testAuthor.Generate();
+        var author = test.Generate();
 
         var testNews = new Faker<File>()
             .CustomInstantiator(f =>
