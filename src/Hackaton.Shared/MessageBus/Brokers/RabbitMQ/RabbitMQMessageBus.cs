@@ -1,12 +1,15 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
+using Hackaton.Shared.Extensions;
+using Hackaton.Shared.Messages.Events;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using TechNews.Common.Library.Extensions;
+using TechNews.Common.Library.MessageBus.Brokers.RabbitMQ;
 using TechNews.Common.Library.Messages;
-using TechNews.Common.Library.Messages.Events;
 
-namespace TechNews.Common.Library.MessageBus.Brokers.RabbitMQ;
+namespace Hackaton.Shared.MessageBus.Brokers.RabbitMQ;
 
 public class RabbitMQMessageBus : IMessageBus, IDisposable
 {

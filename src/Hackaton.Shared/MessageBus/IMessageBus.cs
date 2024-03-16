@@ -1,6 +1,7 @@
-﻿using TechNews.Common.Library.Messages.Events;
+﻿using System;
+using Hackaton.Shared.Messages.Events;
 
-namespace TechNews.Common.Library.MessageBus;
+namespace Hackaton.Shared.MessageBus;
 
 public interface IMessageBus
 {
