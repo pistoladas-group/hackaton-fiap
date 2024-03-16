@@ -92,47 +92,11 @@ Escolhemos uma arquitetura em camadas para a API, adotado um estilo arquitetural
 # Testes
 Para este tech challenge o projeto inclui testes em diferentes níveis para garantir a qualidade e o funcionamento correto do software.
 
-<p align="center">
-  <a href="">
-    <img src=".github\images\tests-diagram.png" alt="api-architecture">
-  </a>
-</p>
-
 ## Testes Unitários
 Os testes unitários visam validar a funcionalidade de unidades individuais de código, como métodos ou funções.
 
 - <b>Frameworks Utilizados:</b> xUnit, FakeItEasy (para mocks).
 - <b>Localização dos Testes:</b> tests/unit/
-
-# CI / CD
-
-O CI / CD desse Tech Challenge consiste nos pipelines: <b>Create Azure Resources</b>, <b>Main</b> e <b>UI Test</b>.
-
-O pipeline de <b>Create Azure Resources</b> cria todos os recursos descritos na [Arquitetura](#arquitetura), fazendo uso dos ARM Templates disponíveis na pasta "azure". Os recursos criados são: Key Vault, Container Registry, SQL Databases e Blob Storage.
-
-O pipeline <b>Main</b> assume o papel de Integração Contínua (CI) e Entrega Contínua (CD), realizando os seguintes passos:
-- A compilação das aplicações juntamente com suas dependências; 
-- A execução dos testes Unitários, de Integração e UI/UAT;
-- A compilação das imagens com base os dockerfiles, gerando os artefatos que são publicados no Container Registry;
-- Criação das instâncias dos containers no Azure Container Instance com base as imagens;
-
-Já o pipeline <b>UI Test</b> serve para preparar o ambiente de teste e executar os testes de interface e aceitação do usuário (UI/UAT). Os passos são:
-- Criação do Resource Group na Azure de teste para facilitar o gerenciamento do ambiente;
-- Deploy das bases de testes;
-- Compilação das imagens com base os dockerfiles, gerando os artefatos que são publicados no Container Registry com a tag de teste;
-- Criação das instâncias dos containers no Azure Container Instance com base as imagens de teste;
-- Execução do teste de UI/UAT;
-- Descarte do ambiente de teste deletando o Resource Group;
-
-Abaixo um diagrama que demonstra como o pipeline Main e UI Test se integram.
-
-<p align="center">
-  <a href="">
-    <img src="docs\pipelines-diagram.jpg" alt="pipeline-diagram">
-  </a>
-</p>
-
-As migrations do banco são realizadas por cada aplicação (Auth API e Core API), no momento em que a aplicação é executada no container. Isso garante que as bases estão atualizadas automaticamente através das migrations do Entity Framework. Também existe a opção de executar os scripts gerados manualmente. Eles se encontram na pasta "sql".
 
 # Mensageria
 
