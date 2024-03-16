@@ -1,5 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Hackaton.Api.Data;
+using Hackaton.Api.Controller;
 
 namespace TechNews.Core.Api.Tests;
 
