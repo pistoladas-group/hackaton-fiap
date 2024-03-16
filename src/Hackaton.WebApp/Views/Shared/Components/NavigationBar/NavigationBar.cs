@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TechNews.Web.Models;
 
-namespace TechNews.Web.Controllers;
+namespace TechNews.Web.Views.Shared.Components.NavigationBar;
 
-[Authorize]
-public class HomeController : Controller
+public class NavigationBarViewComponent : ViewComponent
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HomeController(IHttpContextAccessor httpContextAccessor)
+    public NavigationBarViewComponent(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }
 
-    [AllowAnonymous]
-    public IActionResult Index()
+    public IViewComponentResult Invoke()
     {
         var model = new UserModel
         {
