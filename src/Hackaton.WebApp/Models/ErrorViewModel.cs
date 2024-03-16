@@ -1,4 +1,4 @@
-namespace TechBox.Web.Models;
+namespace Hackaton.WebApp.Models;
 
 public class ErrorViewModel
 {

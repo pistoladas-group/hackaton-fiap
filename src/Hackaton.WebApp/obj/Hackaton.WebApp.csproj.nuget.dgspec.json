@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj": {}
+    "D:\\Projects\\FIAP\\Entregas\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj": {
+    "D:\\Projects\\FIAP\\Entregas\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj",
+        "projectUniqueName": "D:\\Projects\\FIAP\\Entregas\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj",
         "projectName": "Hackaton.WebApp",
-        "projectPath": "C:\\Projects\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj",
-        "packagesPath": "C:\\Users\\igorm\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\hackaton-fiap\\src\\Hackaton.WebApp\\obj\\",
+        "projectPath": "D:\\Projects\\FIAP\\Entregas\\hackaton-fiap\\src\\Hackaton.WebApp\\Hackaton.WebApp.csproj",
+        "packagesPath": "C:\\Users\\evert\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\FIAP\\Entregas\\hackaton-fiap\\src\\Hackaton.WebApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\igorm\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\evert\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -58,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

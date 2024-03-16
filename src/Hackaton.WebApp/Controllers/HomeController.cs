@@ -1,93 +1,31 @@
-﻿using System.Text.Json;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using TechBox.Web.Configurations;
+using Hackaton.WebApp.Models;
 
-namespace TechBox.Web.Controllers;
+namespace Hackaton.WebApp.Controllers;
 
-[Route("[controller]")]
 public class HomeController : Controller
 {
-    private readonly IHttpClientFactory _httpFactory;
+    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(IHttpClientFactory httpFactory)
+    public HomeController(ILogger<HomeController> logger)
     {
-        _httpFactory = httpFactory;
+        _logger = logger;
     }
 
-    [HttpGet("")]
     public IActionResult Index()
     {
         return View();
     }
 
-    [HttpPost("upload")]
-    public async Task<IActionResult> UploadFileAsync(IFormFile formFile)
+    public IActionResult Privacy()
     {
-        var client = _httpFactory.CreateClient();
-        var request = new HttpRequestMessage(HttpMethod.Post, $"{Environment.GetEnvironmentVariable(EnvironmentVariables.ApiBaseUrl)}/api/files");
-        var content = new MultipartFormDataContent();
-        var streamContent = new StreamContent(formFile.OpenReadStream());
-
-        streamContent.Headers.Add("Content-Type", formFile.ContentType);
-
-        content.Add(streamContent, "formFile", formFile.FileName);
-
-        request.Content = content;
-
-        var apiResponse = await client.SendAsync(request);
-
-        if (!apiResponse.IsSuccessStatusCode && apiResponse.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-        {
-            var errorResponse = JsonSerializer.Serialize(await apiResponse.Content.ReadAsStringAsync());
-            return new ObjectResult(errorResponse)
-            {
-                StatusCode = 500
-            };
-        }
-
-        if (!apiResponse.IsSuccessStatusCode && apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
-        {
-            var badResponse = JsonSerializer.Serialize(await apiResponse.Content.ReadAsStringAsync());
-            return BadRequest(badResponse);
-        }
-
-        apiResponse.Headers.TryGetValues("location", out var locationValues);
-
-        request = new HttpRequestMessage(HttpMethod.Get, locationValues?.FirstOrDefault());
-
-        apiResponse = await client.SendAsync(request);
-
-        apiResponse.EnsureSuccessStatusCode();
-
-        var reponse = JsonSerializer.Serialize(await apiResponse.Content.ReadAsStringAsync());
-
-        return Ok(reponse);
+        return View();
     }
 
-    [HttpGet("files")]
-    public async Task<IActionResult> ListFilesAsync()
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
     {
-        var client = _httpFactory.CreateClient();
-        var request = new HttpRequestMessage(HttpMethod.Get, $"{Environment.GetEnvironmentVariable(EnvironmentVariables.ApiBaseUrl)}/api/files?pageNumber=1&pageSize=100");
-
-        var apiResponse = await client.SendAsync(request);
-
-        apiResponse.EnsureSuccessStatusCode();
-
-        var reponse = JsonSerializer.Serialize(await apiResponse.Content.ReadAsStringAsync());
-
-        return Ok(reponse);
-    }
-
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteFileById([FromRoute] Guid id)
-    {
-        var client = _httpFactory.CreateClient();
-        var request = new HttpRequestMessage(HttpMethod.Delete, $"{Environment.GetEnvironmentVariable(EnvironmentVariables.ApiBaseUrl)}/api/files/{id}");
-        var apiResponse = await client.SendAsync(request);
-
-        apiResponse.EnsureSuccessStatusCode();
-        
-        return Ok();
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
