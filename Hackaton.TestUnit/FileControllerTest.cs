@@ -37,10 +37,10 @@ public class FileControllerTest : IClassFixture<TestsFixture>
         var dbContext = _testsFixture.GetDbContext();
         var controller = new FileController(dbContext);
 
-        var newsId = _testsFixture.AddFileToDbContext();
+        var id = _testsFixture.AddFileToDbContext();
 
         //Act
-        var response = await controller.GetFileById(newsId);
+        var response = await controller.GetFileById(id);
 
         //Assert
         var objectResult = (ObjectResult?)response;
@@ -49,7 +49,7 @@ public class FileControllerTest : IClassFixture<TestsFixture>
 
         Assert.Equal((int)HttpStatusCode.OK, objectResult?.StatusCode);
         Assert.NotNull(apiResponse?.Data);
-        Assert.Equal(newsId, apiResponseData?.Id);
+        Assert.Equal(id, apiResponseData?.Id);
     }
 
     [Fact]
