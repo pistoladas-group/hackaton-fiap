@@ -103,11 +103,6 @@ Abaixo o passo a passo para executar a aplicação localmente:
     ```bash
         git clone https://github.com/pistoladas-group/hackaton-fiap.git
     ```
-- Configurar certificados para habilitar conexão via https:
-    ```bash
-        dotnet dev-certs https -ep "$env:USERPROFILE\.aspnet\https\technews.pfx"  -p "OVmTv9lykb0)>m=wWcQaJ"
-        dotnet dev-certs https --trust
-    ```
 - Utilizar o comando abaixo para subir a aplicação utilizando docker-compose:
     ```bash
         docker-compose -f docker-compose.debug.yml up --build
