@@ -1,5 +1,5 @@
-<h1 align="center">Tech News</h1>
-<h4 align="center">Um blog de notícias para a galera tech.</h4>
+<h1 align="center">Tech Box</h1>
+<h4 align="center">Uma plataforma de cortes de videos para capturas frames.</h4>
 
 <p align="center">
   <a href="">
@@ -12,16 +12,17 @@
   </a>
 </p>
 
+<!-- Pegar o front depois de pronto -->
 <p align="center">
   <a href="">
     <img src=".github\images\website-demo.png" alt="website-demo">
   </a>
 </p>
 
-# TODO
+<!-- # TODO
 - Correlation ID
 - .NET8
-- Event Sourcing
+- Event Sourcing -->
 
 ## Sumário
 
@@ -45,11 +46,15 @@
 
 
 # Sobre
-Este projeto foi criado para atender os requisitos do projeto Tech Challenge da [Faculdade de Tecnologia - FIAP](https://postech.fiap.com.br/?gclid=Cj0KCQjwnf-kBhCnARIsAFlg49228y9z3y6lf_mWZEekgcxZRZBDavxtRT-zAUNs33TZOJtXpGVMNlAaAue5EALw_wcB).<br>
-O sistema do TechNews consiste em três aplicações: 
-- Uma aplicação Web App MVC que exibe as notícias do blog.
-- Uma API de gerenciamento das notícias (requer autenticação OAuth2).
-- Uma API dedicada ao gerenciamento, autenticação e autorização dos usuários.
+Este projeto foi desenvolvido para atender aos requisitos de uma demanda de processamento de imagens da empresa [FIAP X].<br>
+- [A plataforma Tech Box consiste em três aplicações principais:]
+- Uma aplicação WEB APP MVC que permite ao usuário fazer o upload de vídeos e o download de um arquivo ZIP contendo os frames extraídos.
+- Uma WEB API que gerencia o upload dos vídeos no armazenamento, cria registros no banco de dados e adiciona mensagens à fila. Ao receber a resposta do processamento, atualiza a interface do usuário com a URL de download do arquivo .zip .
+- Uma aplicação WORKER que consome a fila, processa os vídeos e extrai os frames. Em seguida, salva os frames em um arquivo ZIP no armazenamento e atualiza o banco de dados com as informações do arquivo ZIP e o status do processamento.
+-[Além disso, o projeto inclui:]
+- Um Broker do tipo RabbitMQ para gerenciar a fila de mensagens.
+- Um banco de dados do tipo SQL Server, onde são armazenadas informações sobre o processamento, o status do processo, a URL do vídeo e a URL do arquivo ZIP.
+- Um armazenamento com dois containers, um para vídeos e outro para arquivos ZIP. Esses containers permitem o upload do vídeo a ser processado e do arquivo ZIP para disponibilização do download na interface do usuário.
 
 # Tecnologias
 
