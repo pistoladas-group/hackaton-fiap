@@ -16,7 +16,7 @@ public class TestsFixture : IDisposable
     public ApplicationDbContext GetDbContext()
     {
         var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("TechNews")
+            .UseInMemoryDatabase("File")
             .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options;
 
@@ -28,11 +28,11 @@ public class TestsFixture : IDisposable
         return _applicationDbContext;
     }
 
-    private News GetFileWithAuthor()
+    private File GetFileWithAuthor()
     {
-        var testAuthor = new Faker<Author>()
+        var testAuthor = new Faker<File>()
             .CustomInstantiator(f =>
-                new Author(
+                new File(
                     name: f.Name.FirstName(),
                     email: f.Internet.Email(),
                     imageSource: f.Image.PicsumUrl()
@@ -41,9 +41,9 @@ public class TestsFixture : IDisposable
 
         var author = testAuthor.Generate();
 
-        var testNews = new Faker<News>()
+        var testNews = new Faker<File>()
             .CustomInstantiator(f =>
-                new News(
+                new File(
                     title: string.Join(" ", f.Lorem.Words(f.Random.Number(5, 10))),
                     description: f.Lorem.Paragraphs(),
                     publishDate: f.Date.Recent(),
@@ -57,12 +57,12 @@ public class TestsFixture : IDisposable
 
     public Guid AddFileToDbContext()
     {
-        var news = GetFileWithAuthor();
+        var file = GetFileWithAuthor();
 
-        _applicationDbContext?.News.Add(news);
+        _applicationDbContext?.File.Add(file);
         _applicationDbContext?.SaveChanges();
 
-        return news.Id;
+        return file.Id;
     }
 
     public ApiResponse? GetApiResponseFromObjectResult(ObjectResult? objectResult)
