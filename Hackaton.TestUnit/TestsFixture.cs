@@ -34,8 +34,10 @@ public class TestsFixture : IDisposable
             .CustomInstantiator(f =>
                 new File(
                     name: f.Name.FirstName(),
-                    email: f.Internet.Email(),
-                    imageSource: f.Image.PicsumUrl()
+                    sizeInBytes: f.Random.Long(1000, 1000000),
+                    url: f.Internet.Url(),
+                    contentType: f.Internet.ContentType(),
+                    processStatusId: f.Random.Uuid().ToString()
                 )
             );
 
@@ -44,11 +46,11 @@ public class TestsFixture : IDisposable
         var testNews = new Faker<File>()
             .CustomInstantiator(f =>
                 new File(
-                    title: string.Join(" ", f.Lorem.Words(f.Random.Number(5, 10))),
-                    description: f.Lorem.Paragraphs(),
-                    publishDate: f.Date.Recent(),
-                    author: author,
-                    imageSource: f.Image.PicsumUrl()
+                    name: f.Name.FirstName(),
+                    sizeInBytes: f.Random.Long(1000, 1000000),
+                    url: f.Internet.Url(),
+                    contentType: f.Internet.ContentType(),
+                    processStatusId: f.Random.Uuid().ToString()
                 )
             );
 
