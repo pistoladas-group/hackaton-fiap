@@ -6,6 +6,8 @@ namespace Hackaton.Api.Configurations;
 public static class EnvironmentVariables
 {
     public static string? DatabaseConnectionString { get; private set; }
+    public static string StorageAccountUrl { get; private set; } = string.Empty;
+    public static string StorageAccountContainerName { get; private set; } = string.Empty;
 
     public static IServiceCollection AddEnvironmentVariables(this IServiceCollection services, IWebHostEnvironment environment)
     {
@@ -38,5 +40,7 @@ public static class EnvironmentVariables
     private static void LoadVariables()
     {
         DatabaseConnectionString = Environment.GetEnvironmentVariable("HACKATON_API_DATABASE_CONNECTION_STRING");
+        StorageAccountUrl = Environment.GetEnvironmentVariable("TECHBOX_API_AZURE_STORAGE_ACCOUNT_URL");
+        StorageAccountContainerName = Environment.GetEnvironmentVariable("TECHBOX_API_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME");
     }
 }

@@ -16,10 +16,10 @@ public class FileProcess : Entity
     {
     }
 
-    public FileProcess(Guid fileId, ProcessStatusEnum processStatusId, ProcessTypeEnum processTypeId, string? errorMessage, DateTime? startedAt, DateTime? finishedAt)
+    public FileProcess(Guid fileId, ProcessTypeEnum processTypeId, string? errorMessage = null, DateTime? startedAt = null, DateTime? finishedAt = null)
     {
         FileId = fileId;
-        ProcessStatusId = processStatusId;
+        ProcessStatusId = ProcessStatusEnum.Pending;
         ProcessTypeId = processTypeId;
         ErrorMessage = errorMessage;
         StartedAt = startedAt;

@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hackaton.Api.Data;
 using Hackaton.Api.Models;
+using Hackaton.Api.Services;
+using Hackaton.Api.Data.Entities;
+using System.Linq;
 
 namespace TechBox.Api.Controllers;
 
@@ -11,10 +14,14 @@ namespace TechBox.Api.Controllers;
 public class FilesController : ControllerBase
 {
     private ApplicationDbContext _context { get; set; }
+    private readonly IRemoteFileStorageService _remoteFileStorageService;
+    private readonly ILocalFileStorageService _localFileStorageService;
 
-    public FilesController(ApplicationDbContext context)
+    public FilesController(ApplicationDbContext context, IRemoteFileStorageService remoteFileStorageService, ILocalFileStorageService localFileStorageService)
     {
         _context = context;
+        _remoteFileStorageService = remoteFileStorageService;
+        _localFileStorageService = localFileStorageService;
     }
 
     /// <summary>
@@ -85,89 +92,44 @@ public class FilesController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> UploadFile(IFormFile formFile)
     {
-        //TODO: Salvar local
-        //TODO: Salvar no banco para controle (tabela FileProcesses)
+        var result = _remoteFileStorageService.ValidateFile(formFile);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new ApiResponse(result.Errors));
+        }
+
+        var existingFileWithSameName = await _context.Files.AsNoTracking().Where(x => x.Name == formFile.FileName).ToListAsync();
+
+        if (existingFileWithSameName.Count > 0)
+        {
+            foreach (var fileToDelete in existingFileWithSameName)
+            {
+                fileToDelete.IsDeleted = true;
+            }
+        }
+
+        var fileToAdd = new Hackaton.Api.Data.Entities.File(formFile.FileName, formFile.Length, null, formFile.ContentType, ProcessStatusEnum.Pending);
+        _context.Files.Add(fileToAdd);
+
+        var existingUploadFileLog = await _context.FileProcesses.AsNoTracking().FirstOrDefaultAsync(x => x.FileId == fileToAdd.Id && x.ProcessTypeId == ProcessTypeEnum.Upload);
+
+        if (existingUploadFileLog == null)
+        {
+            _context.FileProcesses.Add(new FileProcess(fileToAdd.Id, ProcessTypeEnum.Upload));
+        }
+
+        // Salva local em caso de dar erro na hora de subir para o Azure
+        _localFileStorageService.SaveFile(formFile, fileToAdd.Id);
+
+        // Faz upload para o Azure para o Consumer conseguir baixar o arquivo e processar
+        var file = _localFileStorageService.GetFileById(fileToAdd.Id, formFile.FileName);
+        var uploadedFileUri = await _remoteFileStorageService.UploadFileAsync(file, formFile.FileName, formFile.ContentType);
+
+        await _context.SaveChangesAsync();
+
         //TODO: Postar na fila
-
-        //TODO: Rollback de tudo se der algo errado
-
-
-
-        // .....
-
-        //var result = _remoteFileStorageService.ValidateFile(formFile);
-
-        //if (!result.IsSuccess)
-        //{
-        //    return BadRequest(new ApiResponse(result.Errors));
-        //}
-
-        //var existingFileWithSameName = await _fileRepository.CheckIfFileExistsByFileNameAsync(formFile.FileName);
-
-        //if (existingFileWithSameName)
-        //{
-        //    var enumeratedExistingFiles = await _fileRepository.ListFilesByFileName(formFile.FileName);
-        //    var existingFiles = enumeratedExistingFiles.ToList();
-        //    foreach (var file in existingFiles)
-        //    {
-        //        await _fileRepository.DeleteFileByIdAsync(file.Id);
-        //    }
-        //}
-
-        //var fileToAdd = new AddFileDto(formFile.FileName, formFile.Length, formFile.ContentType);
-        //var id = await _fileRepository.AddFileAsync(fileToAdd);
-
-        //var existingUploadFileLog = await _fileRepository.CheckFileLogByFileIdAndProcessTypeIdAsync(id, ProcessTypesEnum.Upload);
-
-        //if (!existingUploadFileLog)
-        //{
-        //    await _fileRepository.AddFileLogAsync(new AddFileLogDto(id, ProcessTypesEnum.Upload));
-        //}
-
-        //_localFileStorageService.SaveFile(formFile, id);
 
         return CreatedAtAction(nameof(GetFileById), null, new ApiResponse(data: null));
-    }
-
-    /// <summary>
-    /// Delete a file by id
-    /// </summary>
-    /// <response code="202">Operation accepted and being processed</response>
-    /// <response code="404">The resource was not found</response>
-    /// <response code="500">An internal error occurred</response>
-    [HttpDelete("{id:guid}")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.Accepted)]
-    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> DeleteFile([FromRoute] Guid id)
-    {
-        //TODO: Salvar local
-        //TODO: Salvar no banco para controle (tabela FileProcesses)
-        //TODO: Postar na fila
-
-        //TODO: Rollback de tudo se der algo errado
-
-
-        //var file = await _fileRepository.GetFileByIdAsync(id);
-
-        //if (file is null)
-        //{
-        //    return NotFound(new ApiResponse(error: "no file found"));
-        //}
-
-        //await _fileRepository.UpdateFileProcessStatusByIdAsync(id, ProcessStatusEnum.Pending);
-
-        //var existingFileLog = await _fileRepository.CheckFileLogByFileIdAndProcessTypeIdAsync(id, ProcessTypesEnum.Delete);
-
-        //if (!existingFileLog)
-        //{
-        //    await _fileRepository.AddFileLogAsync(new AddFileLogDto(id, ProcessTypesEnum.Delete));
-        //}
-
-        //await _fileRepository.DeleteFileByIdAsync(id);
-
-        return Accepted(new ApiResponse());
     }
 }
