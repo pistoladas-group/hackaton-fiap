@@ -1,7 +1,12 @@
 using Hackaton.Worker;
+using Hackaton.Worker.Configurations;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+builder.Services
+    .AddEnvironmentVariables(builder.Environment)
+    .AddLoggingConfiguration()
+    .ConfigureMessageBroker()
+    .AddHostedService<Worker>();
 
 var host = builder.Build();
 host.Run();
