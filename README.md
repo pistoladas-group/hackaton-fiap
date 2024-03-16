@@ -92,7 +92,7 @@ No âmbito do negócio, sua responsabilidade é enviar o video para ser processa
 
 ## Core API
 
-Escolhemos uma arquitetura mais simples para a API de notícias, adotado um estilo arquitetural de CRUD.
+Escolhemos uma arquitetura em camadas para a API, adotado um estilo arquitetural de CRUD.
 
 # Testes
 Para este tech challenge o projeto inclui testes em diferentes níveis para garantir a qualidade e o funcionamento correto do software.
@@ -106,14 +106,8 @@ Para este tech challenge o projeto inclui testes em diferentes níveis para gara
 ## Testes Unitários
 Os testes unitários visam validar a funcionalidade de unidades individuais de código, como métodos ou funções.
 
-- <b>Frameworks Utilizados:</b> xUnit, FakeItEasy (para mocks) e Bogus (para geração automática de dados fake)
+- <b>Frameworks Utilizados:</b> xUnit, FakeItEasy (para mocks).
 - <b>Localização dos Testes:</b> tests/unit/
-
-## Testes de UI/UAT (Interface/Aceitação do Usuário)
-Os testes de UI/UAT (User Acceptance Testing) são realizados para validar o aplicativo quanto à usabilidade, experiência do usuário e para garantir que atende aos requisitos do usuário final. Para este teste todo um ambiente é criado e depois descartado após execução do teste.
-
-- <b>Frameworks Utilizado:</b> xUnit, Bogus, Specflow e Selenium
-- <b>Localização dos Testes:</b> tests/user-interface/
 
 # CI / CD
 
@@ -181,7 +175,7 @@ Para rodar localmente, é possível utilizar o Docker.
 Abaixo o passo a passo para executar a aplicação localmente:
 - Realizar o clone do projeto na pasta desejada:
     ```bash
-        git clone https://github.com/pistoladas-group/tech-challenge-02.git
+        git clone https://github.com/pistoladas-group/hackaton-fiap.git
     ```
 - Configurar certificados para habilitar conexão via https:
     ```bash
