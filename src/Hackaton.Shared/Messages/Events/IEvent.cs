@@ -2,5 +2,4 @@
 
 public interface IEvent
 {
-    public string GetStreamName();
 }

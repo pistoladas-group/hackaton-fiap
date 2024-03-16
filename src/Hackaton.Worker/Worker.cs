@@ -1,23 +1,37 @@
+using Hackaton.Shared.MessageBus;
+using Hackaton.Shared.Messages.Events;
+using Hackaton.Worker.Configurations;
+using Serilog;
+
 namespace Hackaton.Worker;
 
-public class Worker : BackgroundService
+public class Worker(IMessageBus bus) : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
-
-    public Worker(ILogger<Worker> logger)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger = logger;
+        Log.Information("Worker has started");
+        bus.Consume<NewVideoEvent>(EnvironmentVariables.BrokerNewVideoToProcessQueueName, ExecuteAfterConsumed);
+        return Task.CompletedTask;
     }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    
+    private void ExecuteAfterConsumed(NewVideoEvent? message)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        Log.Information("New message received: {@message}", message);
+
+        if (message is null)
         {
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            }
-            await Task.Delay(1000, stoppingToken);
+            Log.Warning("Message is null. Skipping e-mail notification");
+            return;
+        }
+
+        try
+        {
+            //TODO: do stuff
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error while sending notification");
+            throw;
         }
     }
 }
