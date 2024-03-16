@@ -1,28 +1,26 @@
-using TechNews.Common.Library.Middlewares;
-using TechNews.Web.Configurations;
+using TechBox.Web.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services
-        .AddHttpClient()
-        .AddAuthConfiguration()
-        .AddEnvironmentVariables(builder.Environment)
-        .AddLoggingConfiguration(builder.Host)
-        .ConfigureDependencyInjections()
-        .AddControllersWithViews(options => options.Filters.AddFilterConfiguration());
+    .AddEnvironmentVariables()
+    .AddHttpClient()
+    .AddControllersWithViews();
 
 var app = builder.Build();
 
-app.UseHsts();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
 app.UseHttpsRedirection();
-app.UseLoggingConfiguration();
-app.UseMiddleware<ResponseHeaderMiddleware>();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthConfiguration();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
